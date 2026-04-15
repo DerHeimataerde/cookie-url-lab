@@ -1,0 +1,420 @@
+[
+  {
+    "ts": 1776277531.1288583,
+    "request_url": "http://127.0.0.1:8765/site/plain?cid=user-123",
+    "status_code": 302,
+    "cookies_sent": {},
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/plain?xid=user-123"
+  },
+  {
+    "ts": 1776277531.1288693,
+    "request_url": "http://127.0.0.1:8765/tracker/plain?xid=user-123",
+    "status_code": 200,
+    "cookies_sent": {},
+    "set_cookies": {
+      "tid_plain": "user-123"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.1598554,
+    "request_url": "http://127.0.0.1:8765/site/base64?cid=user-456",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/base64?xid=dXNlci00NTY"
+  },
+  {
+    "ts": 1776277531.1598682,
+    "request_url": "http://127.0.0.1:8765/tracker/base64?xid=dXNlci00NTY",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123"
+    },
+    "set_cookies": {
+      "tid_b64": "user-456"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.17545,
+    "request_url": "http://127.0.0.1:8765/site/split?cid=user-789",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/split?blob=v1.dXNlci03ODk.sig"
+  },
+  {
+    "ts": 1776277531.1754582,
+    "request_url": "http://127.0.0.1:8765/tracker/split?blob=v1.dXNlci03ODk.sig",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456"
+    },
+    "set_cookies": {
+      "tid_split": "id::user-789"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.2058203,
+    "request_url": "http://127.0.0.1:8765/site/lookup?cid=user-999",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/lookup?tok=MNvYapi1vJjwROJgheoiFA"
+  },
+  {
+    "ts": 1776277531.2058282,
+    "request_url": "http://127.0.0.1:8765/tracker/lookup?tok=MNvYapi1vJjwROJgheoiFA",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789"
+    },
+    "set_cookies": {
+      "tid_lookup": "L::user-999"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.2369149,
+    "request_url": "http://127.0.0.1:8765/site/random",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/random?noise=WtizJCAI5U522g"
+  },
+  {
+    "ts": 1776277531.2369251,
+    "request_url": "http://127.0.0.1:8765/tracker/random?noise=WtizJCAI5U522g",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999"
+    },
+    "set_cookies": {
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.241515,
+    "request_url": "http://127.0.0.1:8765/site/plain?cid=user-123",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/plain?xid=user-123"
+  },
+  {
+    "ts": 1776277531.2415233,
+    "request_url": "http://127.0.0.1:8765/tracker/plain?xid=user-123",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "set_cookies": {
+      "tid_plain": "user-123"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.2691965,
+    "request_url": "http://127.0.0.1:8765/site/base64?cid=user-456",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/base64?xid=dXNlci00NTY"
+  },
+  {
+    "ts": 1776277531.2692037,
+    "request_url": "http://127.0.0.1:8765/tracker/base64?xid=dXNlci00NTY",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "set_cookies": {
+      "tid_b64": "user-456"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.297899,
+    "request_url": "http://127.0.0.1:8765/site/split?cid=user-789",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/split?blob=v1.dXNlci03ODk.sig"
+  },
+  {
+    "ts": 1776277531.29791,
+    "request_url": "http://127.0.0.1:8765/tracker/split?blob=v1.dXNlci03ODk.sig",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "set_cookies": {
+      "tid_split": "id::user-789"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.3278818,
+    "request_url": "http://127.0.0.1:8765/site/lookup?cid=user-999",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/lookup?tok=V22gQx55S44Qo3wHlqTj7w"
+  },
+  {
+    "ts": 1776277531.327893,
+    "request_url": "http://127.0.0.1:8765/tracker/lookup?tok=V22gQx55S44Qo3wHlqTj7w",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "set_cookies": {
+      "tid_lookup": "L::user-999"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.3587215,
+    "request_url": "http://127.0.0.1:8765/site/random",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/random?noise=3ZdTW62aTwa_xQ"
+  },
+  {
+    "ts": 1776277531.3587303,
+    "request_url": "http://127.0.0.1:8765/tracker/random?noise=3ZdTW62aTwa_xQ",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "6EFoVqMGP1o"
+    },
+    "set_cookies": {
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.3891737,
+    "request_url": "http://127.0.0.1:8765/site/plain?cid=user-123",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/plain?xid=user-123"
+  },
+  {
+    "ts": 1776277531.389182,
+    "request_url": "http://127.0.0.1:8765/tracker/plain?xid=user-123",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "set_cookies": {
+      "tid_plain": "user-123"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.4195852,
+    "request_url": "http://127.0.0.1:8765/site/base64?cid=user-456",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/base64?xid=dXNlci00NTY"
+  },
+  {
+    "ts": 1776277531.4195938,
+    "request_url": "http://127.0.0.1:8765/tracker/base64?xid=dXNlci00NTY",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "set_cookies": {
+      "tid_b64": "user-456"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.4498742,
+    "request_url": "http://127.0.0.1:8765/site/split?cid=user-789",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/split?blob=v1.dXNlci03ODk.sig"
+  },
+  {
+    "ts": 1776277531.4498837,
+    "request_url": "http://127.0.0.1:8765/tracker/split?blob=v1.dXNlci03ODk.sig",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "set_cookies": {
+      "tid_split": "id::user-789"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.454039,
+    "request_url": "http://127.0.0.1:8765/site/lookup?cid=user-999",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/lookup?tok=0GZ5zPe1ceKt72-aKCmnMQ"
+  },
+  {
+    "ts": 1776277531.454047,
+    "request_url": "http://127.0.0.1:8765/tracker/lookup?tok=0GZ5zPe1ceKt72-aKCmnMQ",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "set_cookies": {
+      "tid_lookup": "L::user-999"
+    },
+    "redirect_to": null
+  },
+  {
+    "ts": 1776277531.4675186,
+    "request_url": "http://127.0.0.1:8765/site/random",
+    "status_code": 302,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "set_cookies": {},
+    "redirect_to": "http://127.0.0.1:8765/tracker/random?noise=wy9gq1CSUBILQg"
+  },
+  {
+    "ts": 1776277531.467526,
+    "request_url": "http://127.0.0.1:8765/tracker/random?noise=wy9gq1CSUBILQg",
+    "status_code": 200,
+    "cookies_sent": {
+      "tid_plain": "user-123",
+      "tid_b64": "user-456",
+      "tid_split": "id::user-789",
+      "tid_lookup": "L::user-999",
+      "tid_random": "yZ4AaJiKfFc"
+    },
+    "set_cookies": {
+      "tid_random": "9Z4zj8j-QwI"
+    },
+    "redirect_to": null
+  }
+]

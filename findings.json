@@ -1,0 +1,98 @@
+[
+  {
+    "mapping": {
+      "url_component": "query",
+      "param_or_index": "xid",
+      "cookie_name": "tid_plain",
+      "transform": "identity"
+    },
+    "count": 3,
+    "avg_score": 2.35,
+    "examples": [
+      {
+        "event_index": 1,
+        "request_url": "http://127.0.0.1:8765/tracker/plain?xid=user-123",
+        "url_component": "query",
+        "param_or_index": "xid",
+        "token": "user-123",
+        "cookie_name": "tid_plain",
+        "cookie_value": "user-123",
+        "transform": "identity",
+        "transformed": "user-123",
+        "score": 2.35
+      },
+      {
+        "event_index": 11,
+        "request_url": "http://127.0.0.1:8765/tracker/plain?xid=user-123",
+        "url_component": "query",
+        "param_or_index": "xid",
+        "token": "user-123",
+        "cookie_name": "tid_plain",
+        "cookie_value": "user-123",
+        "transform": "identity",
+        "transformed": "user-123",
+        "score": 2.35
+      },
+      {
+        "event_index": 21,
+        "request_url": "http://127.0.0.1:8765/tracker/plain?xid=user-123",
+        "url_component": "query",
+        "param_or_index": "xid",
+        "token": "user-123",
+        "cookie_name": "tid_plain",
+        "cookie_value": "user-123",
+        "transform": "identity",
+        "transformed": "user-123",
+        "score": 2.35
+      }
+    ]
+  },
+  {
+    "mapping": {
+      "url_component": "query",
+      "param_or_index": "xid",
+      "cookie_name": "tid_b64",
+      "transform": "b64"
+    },
+    "count": 3,
+    "avg_score": 2.35,
+    "examples": [
+      {
+        "event_index": 3,
+        "request_url": "http://127.0.0.1:8765/tracker/base64?xid=dXNlci00NTY",
+        "url_component": "query",
+        "param_or_index": "xid",
+        "token": "dXNlci00NTY",
+        "cookie_name": "tid_b64",
+        "cookie_value": "user-456",
+        "transform": "b64",
+        "transformed": "user-456",
+        "score": 2.35
+      },
+      {
+        "event_index": 13,
+        "request_url": "http://127.0.0.1:8765/tracker/base64?xid=dXNlci00NTY",
+        "url_component": "query",
+        "param_or_index": "xid",
+        "token": "dXNlci00NTY",
+        "cookie_name": "tid_b64",
+        "cookie_value": "user-456",
+        "transform": "b64",
+        "transformed": "user-456",
+        "score": 2.35
+      },
+      {
+        "event_index": 23,
+        "request_url": "http://127.0.0.1:8765/tracker/base64?xid=dXNlci00NTY",
+        "url_component": "query",
+        "param_or_index": "xid",
+        "token": "dXNlci00NTY",
+        "cookie_name": "tid_b64",
+        "cookie_value": "user-456",
+        "transform": "b64",
+        "transformed": "user-456",
+        "score": 2.35
+      }
+    ]
+  }
+]
