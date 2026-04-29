@@ -9,6 +9,8 @@ from urllib.parse import urljoin
 
 import requests
 
+from test_data_generator import ad_scenario_urls
+
 DEFAULT_BASE = "http://127.0.0.1:8765"
 SCENARIOS = [
     "/site/plain?cid=user-123",
@@ -16,6 +18,7 @@ SCENARIOS = [
     "/site/split?cid=user-789",
     "/site/lookup?cid=user-999",
     "/site/random",
+    *ad_scenario_urls(),
 ]
 
 

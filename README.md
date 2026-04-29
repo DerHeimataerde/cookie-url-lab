@@ -33,6 +33,9 @@ It is built for synthetic local experimentation, not production traffic analysis
 - `reverse_engineer_toy.py`  
 	Simple helper to summarize specific URL parameter / cookie pairs in the synthetic dataset.
 
+- `dashboard.py`  
+	Local Flask dashboard to start/stop the synthetic server, run the full pipeline, and inspect logs/results.
+
 - `capture.json`  
 	Raw captured event log from the crawler.
 
@@ -51,6 +54,36 @@ py -m pip install -r requirements.txt
 
 Requirements are intentionally minimal:
 - `requests>=2.31.0`
+- `Flask>=3.0.0`
+
+---
+
+## Local dashboard (run everything from one UI)
+
+If you want one local interface for the whole workflow:
+
+```powershell
+.venv\Scripts\Activate.ps1
+py -m pip install -r requirements.txt
+py dashboard.py
+```
+
+Open:
+
+```text
+http://127.0.0.1:8890
+```
+
+From the dashboard you can:
+- Start/stop the synthetic tracker server (`server.py`).
+- Run crawler + detector + reverse-engineer helper in one click.
+- Tune runs, threshold, and output file names.
+- View pipeline logs, server logs, and top ranked findings.
+
+Notes:
+- The pipeline run auto-starts the tracker server if it is not already running.
+- Default outputs are still `capture.json` and `findings.json`.
+- The UI polls state every 2 seconds to show progress live.
 
 ---
 

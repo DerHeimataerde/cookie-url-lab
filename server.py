@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python3
 from __future__ import annotations
-
 import base64
 import json
 import secrets
@@ -8,7 +8,9 @@ import threading
 from http import HTTPStatus
 from http.cookies import SimpleCookie
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, quote, unquote, urlparse
+from urllib.parse import parse_qs, quote, urlparse
+
+from test_data_generator import AD_SCENARIOS_BY_SITE_PATH, AD_SCENARIOS_BY_TRACKER_PATH, ad_root_links_html
 
 HOST = "127.0.0.1"
 PORT = 8765
@@ -16,10 +18,8 @@ PORT = 8765
 LOOKUP_DB: dict[str, str] = {}
 LOOKUP_LOCK = threading.Lock()
 
-
 def b64e(s: str) -> str:
     return base64.urlsafe_b64encode(s.encode()).decode().rstrip("=")
-
 
 def b64d(s: str) -> str | None:
     padded = s + "=" * ((4 - len(s) % 4) % 4)
@@ -28,13 +28,11 @@ def b64d(s: str) -> str | None:
     except Exception:
         return None
 
-
 def get_cookie_dict(handler: BaseHTTPRequestHandler) -> dict[str, str]:
     raw = handler.headers.get("Cookie", "")
     jar = SimpleCookie()
     jar.load(raw)
     return {k: morsel.value for k, morsel in jar.items()}
-
 
 def token_for(user_id: str) -> str:
     token = secrets.token_urlsafe(16)
@@ -42,12 +40,10 @@ def token_for(user_id: str) -> str:
         LOOKUP_DB[token] = user_id
     return token
 
-
 class LabHandler(BaseHTTPRequestHandler):
     server_version = "LocalTrackerLab/0.1"
 
     def log_message(self, fmt: str, *args):
-        # Keep stdout readable.
         print(f"[{self.log_date_time_string()}] {self.address_string()} - {fmt % args}")
 
     def _send_html(self, html: str, status: int = 200):
@@ -84,10 +80,11 @@ class LabHandler(BaseHTTPRequestHandler):
               <li><a href='/site/split?cid=user-123'>/site/split?cid=user-123</a></li>
               <li><a href='/site/lookup?cid=user-123'>/site/lookup?cid=user-123</a></li>
               <li><a href='/site/random'>/site/random</a></li>
+{ad_links}
               <li><a href='/debug/db'>/debug/db</a></li>
             </ul>
             """
-            self._send_html(html)
+            self._send_html(html.format(ad_links=ad_root_links_html()))
             return
 
         if parsed.path == "/debug/db":
@@ -96,7 +93,6 @@ class LabHandler(BaseHTTPRequestHandler):
             self._send_json({"lookup_db": snapshot, "cookies_seen": cookies})
             return
 
-        # Site endpoints simulate first-party pages that route through a tracker.
         if parsed.path == "/site/plain":
             cid = qs.get("cid", ["user-123"])[0]
             loc = f"/tracker/plain?xid={quote(cid)}"
@@ -139,11 +135,18 @@ class LabHandler(BaseHTTPRequestHandler):
             self.end_headers()
             return
 
-        # Tracker endpoints simulate different mapping families.
+        ad_spec = AD_SCENARIOS_BY_SITE_PATH.get(parsed.path)
+        if ad_spec is not None:
+            value = qs.get(ad_spec.site_param, [ad_spec.sample_value])[0]
+            loc = ad_spec.redirected_url(value)
+            self.send_response(302)
+            self.send_header("Location", loc)
+            self.end_headers()
+            return
+
         if parsed.path == "/tracker/plain":
             xid = qs.get("xid", [""])[0]
-            html = f"<p>plain xid={xid}</p>"
-            body = html.encode("utf-8")
+            body = f"<p>plain xid={xid}</p>".encode("utf-8")
             self.send_response(200)
             self._set_cookie("tid_plain", xid)
             self.send_header("Content-Type", "text/html; charset=utf-8")
@@ -202,8 +205,83 @@ class LabHandler(BaseHTTPRequestHandler):
             self.wfile.write(body)
             return
 
+        ad_tracker_spec = AD_SCENARIOS_BY_TRACKER_PATH.get(parsed.path)
+        if ad_tracker_spec is not None:
+            tracker_value = qs.get(ad_tracker_spec.tracker_param, [""])[0]
+            cookie_value = ad_tracker_spec.cookie_builder(tracker_value)
+            body = f"<p>{ad_tracker_spec.label} {ad_tracker_spec.tracker_param}={tracker_value}</p>".encode("utf-8")
+            self.send_response(200)
+            self._set_cookie(ad_tracker_spec.cookie_name, cookie_value)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+
         self._send_html("<h1>Not found</h1>", status=HTTPStatus.NOT_FOUND)
 
+
+def main():
+    httpd = ThreadingHTTPServer((HOST, PORT), LabHandler)
+    print(f"Serving on http://{HOST}:{PORT}")
+    httpd.serve_forever()
+
+
+if __name__ == "__main__":
+    main()
+
+
+def b64e(s: str) -> str:
+    return base64.urlsafe_b64encode(s.encode()).decode().rstrip("=")
+
+
+def b64d(s: str) -> str | None:
+    padded = s + "=" * ((4 - len(s) % 4) % 4)
+    try:
+        return base64.urlsafe_b64decode(padded.encode()).decode()
+    except Exception:
+        return None
+
+
+def get_cookie_dict(handler: BaseHTTPRequestHandler) -> dict[str, str]:
+    raw = handler.headers.get("Cookie", "")
+    jar = SimpleCookie()
+    jar.load(raw)
+    return {k: morsel.value for k, morsel in jar.items()}
+
+
+def token_for(user_id: str) -> str:
+    token = secrets.token_urlsafe(16)
+    with LOOKUP_LOCK:
+        LOOKUP_DB[token] = user_id
+    return token
+
+
+class LabHandler(BaseHTTPRequestHandler):
+    server_version = "LocalTrackerLab/0.1"
+
+    def log_message(self, fmt: str, *args):
+        # Keep stdout readable.
+        print(f"[{self.log_date_time_string()}] {self.address_string()} - {fmt % args}")
+
+    def _send_html(self, html: str, status: int = 200):
+        body = html.encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _send_json(self, obj: dict, status: int = 200):
+        body = json.dumps(obj, indent=2).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _set_cookie(self, name: str, value: str, path: str = "/"):
+        self.send_header("Set-Cookie", f"{name}={value}; Path={path}; SameSite=Lax")
 
 def main():
     httpd = ThreadingHTTPServer((HOST, PORT), LabHandler)
