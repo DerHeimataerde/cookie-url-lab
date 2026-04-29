@@ -19,6 +19,15 @@ It is built for synthetic local experimentation, not production traffic analysis
 
 ---
 
+## Demo
+
+<!-- Upload a screen recording or short walkthrough video here -->
+<!-- Example: drag-and-drop an .mp4 into this file on GitHub, or link to a hosted video -->
+
+> Demo video coming soon.
+
+---
+
 ## Project structure
 
 - `server.py`  
@@ -35,6 +44,9 @@ It is built for synthetic local experimentation, not production traffic analysis
 
 - `dashboard.py`  
 	Local Flask dashboard to start/stop the synthetic server, run the full pipeline, and inspect logs/results.
+
+- `test_data_generator.py`  
+	Defines ad-platform tracking scenarios (Meta, Google, TikTok, Microsoft/Amazon) used by both `server.py` and `crawler.py` to simulate realistic ad-click redirect and cookie-setting patterns.
 
 - `capture.json`  
 	Raw captured event log from the crawler.
@@ -127,7 +139,7 @@ py detector.py capture.json --threshold 1.10 --output findings.json
 
 ### 4) Inspect a specific synthetic pair (optional helper)
 
-```powershell
+```powershella
 py reverse_engineer_toy.py capture.json tid_b64 xid
 ```
 
@@ -166,6 +178,32 @@ Scenarios:
 - **Random noise**
 	- Redirect carries random parameter and sets unrelated random cookie
 	- Expected detector result: no stable high-confidence mapping
+
+- **Meta (Facebook click ID)**
+	- Request shape: `/site/meta?fbclid=<id>`
+	- Redirect carries `event_id=fb.1.<base64(id)>.sig`
+	- Tracker extracts middle segment, decodes, sets `_fbc=<id>`
+	- Expected detector result: strong `split+b64` mapping from `event_id` to `_fbc`
+
+- **Google Search (click ID)**
+	- Request shape: `/site/search?gclid=<id>`
+	- Redirect carries `adid=gcl::<hex(id)>::ad`
+	- Tracker decodes and sets `_gcl_au=<id>`
+	- Expected detector result: strong hex-split mapping from `adid` to `_gcl_au`
+
+- **TikTok (click ID)**
+	- Request shape: `/site/video?ttclid=<id>`
+	- Redirect carries `click_id=tt.<base64(id)>~end`
+	- Tracker extracts and decodes, sets `_ttp=<id>`
+	- Expected detector result: strong `split+b64` mapping from `click_id` to `_ttp`
+
+- **Microsoft / Amazon (commerce click ID)**
+	- Request shape: `/site/commerce?msclkid=<id>`
+	- Redirect carries `aid=ms.<base64(id)>.trail`
+	- Tracker extracts middle segment, decodes, sets `ubid-main=<id>`
+	- Expected detector result: strong `split+b64` mapping from `aid` to `ubid-main`
+
+All ad scenarios are defined in `test_data_generator.py` and dynamically registered into both `server.py` routing and the `crawler.py` scenario list.
 
 ---
 
