@@ -21,10 +21,9 @@ It is built for synthetic local experimentation, not production traffic analysis
 
 ## Demo
 
-<!-- Upload a screen recording or short walkthrough video here -->
-<!-- Example: drag-and-drop an .mp4 into this file on GitHub, or link to a hosted video -->
 
-> Demo video coming soon.
+https://github.com/user-attachments/assets/1c347d46-9b10-4c48-9f98-919bd4765a9f
+
 
 ---
 
